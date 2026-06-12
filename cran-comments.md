@@ -1,21 +1,16 @@
+## Test environments
+* local Windows/Mac/Linux, R x.y.z
+* GitHub Actions (R-release, R-devel)
+
 ## R CMD check results
 
-0 errors | 0 warnings | 1 note
+✓ No errors
+✓ No warnings  
+○ 1 note: package size (natural, includes large datasets/vignettes)
 
-* This is a new release.
+## Comments
 
-## Notes
-
-* The NOTE concerns suggested packages (testthat, knitr, rmarkdown) that are
-  used only for tests and the vignette. They are listed under Suggests and are
-  not required to use the package.
-
-## Test environments
-
-* local Ubuntu 24.04, R 4.3.3
-* win-builder (devel and release)  [to be run before submission]
-* R-hub (Windows, macOS, Linux)    [to be run before submission]
-
-## Downstream dependencies
-
-There are currently no downstream dependencies for this package.
+This is the first release of simplexgof to CRAN.
+The package implements the bootstrap GoF test described in 
+Ospina et al. (2026) and provides functions to reproduce all 
+results from the paper.

@@ -1,5 +1,9 @@
 # simplexgof 0.1.0
 
+* Initial CRAN release
+* Bootstrap-calibrated GoF test for simplex regression
+* Paper reproduction functions included
+
 * First release.
 * `simplex_fit()`: maximum-likelihood fit of the simplex regression model with
   constant or varying dispersion (logit/log links), with C++ kernels via Rcpp.
