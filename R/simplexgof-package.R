@@ -36,12 +36,15 @@
 #' @seealso
 #' \url{https://github.com/Raydonal/simplexgof}
 #'
-#' @docType package
-#' @name simplexgof-package
-#' @aliases simplexgof
+#' @keywords internal
 #' @useDynLib simplexgof, .registration = TRUE
 #' @importFrom Rcpp evalCpp
-NULL
+#' @importFrom utils data
+#' @importFrom parallel makeCluster stopCluster parLapply detectCores clusterExport clusterEvalQ
+#' @importFrom stats optim qnorm quantile sd var pnorm runif rchisq rnorm median IQR coef dnorm
+#' @importFrom graphics plot lines abline points polygon hist legend mtext par title segments axis box text
+#' @importFrom grDevices rgb col2rgb colorRampPalette dev.interactive
+"_PACKAGE"
 
 # Quiet R CMD check for datasets loaded via data()
 utils::globalVariables(c("ammonia", "pbsc"))

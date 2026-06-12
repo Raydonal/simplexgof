@@ -3,11 +3,11 @@ Type: Package
 Title: Bootstrap-Calibrated Goodness-of-Fit Test for Simplex Regression
 Version: 0.1.0
 Date: 2026-06-12
-Authors@R:
+Authors@R: 
     person("Raydonal", "Ospina",
            email = "raydonal@de.ufpe.br",
            role = c("aut", "cre"),
-           comment = c(ORCID = "0000-0002-8735-1941"))
+           comment = c(ORCID = "0000-0002-9884-9090"))
 Description: Implements the bootstrap-calibrated local-influence
     goodness-of-fit test for simplex regression models with constant or
     varying dispersion, following the local influence approach of
@@ -25,23 +25,17 @@ Description: Implements the bootstrap-calibrated local-influence
     real datasets are bundled.
 License: GPL-3
 URL: https://github.com/Raydonal/simplexgof,
-    https://raydonal.github.io/simplexgof/
+        https://raydonal.github.io/simplexgof/
 BugReports: https://github.com/Raydonal/simplexgof/issues
 Depends: R (>= 4.0.0)
-Imports:
-    Rcpp (>= 1.0.0),
-    parallel,
-    stats,
-    graphics,
-    grDevices
-LinkingTo:
-    Rcpp,
-    RcppArmadillo
-Suggests:
-    testthat (>= 3.0.0),
-    knitr,
-    rmarkdown
+Imports: Rcpp (>= 1.0.0), parallel, stats, graphics, grDevices
+LinkingTo: Rcpp, RcppArmadillo
+Suggests: testthat (>= 3.0.0), knitr, rmarkdown
+VignetteBuilder: knitr
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.3.2
 NeedsCompilation: yes
+Packaged: 2026-06-12 18:56:45 UTC; root
+Author: Raydonal Ospina [aut, cre] (<https://orcid.org/0000-0002-9884-9090>)
+Maintainer: Raydonal Ospina <raydonal@de.ufpe.br>
+Config/roxygen2/version: 8.0.0

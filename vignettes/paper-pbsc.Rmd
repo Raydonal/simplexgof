@@ -1,0 +1,115 @@
+---
+title: "Paper: PBSC application"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Paper: PBSC application}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 6,
+  fig.height = 5
+)
+```
+
+```{r setup}
+library(simplexgof)
+```
+
+## The PBSC application
+
+This article reproduces the peripheral blood stem cell (PBSC)
+transplantation application from the companion methodological paper
+(Ospina, Espinheira, Silva and Barros, 2026), using the `pbsc` dataset
+(Edmonton Hematopoietic Institute - Alberta Health Services).
+
+The response `recovery` is the CD34+ cell recovery rate, a continuous
+proportion in $(0, 1)$. The constant-dispersion model used in
+`paper_pbsc()` is
+
+$$
+\mathrm{logit}(\mu_t) = \beta_1 + \beta_2\,\mathrm{adj\_age}_t +
+  \beta_3\,\mathrm{chemo}_t
+$$
+
+$$
+\log(\sigma^2_t) = \gamma_1
+$$
+
+where `adj_age` is the adjusted patient-age variable and `chemo` is the
+chemotherapy protocol indicator (0 = one-day, 1 = three-day protocol).
+
+## The data
+
+```{r}
+data(pbsc)
+head(pbsc)
+summary(pbsc)
+```
+
+## One-call reproduction
+
+The function `paper_pbsc()` fits the model, runs the bootstrap GoF test,
+and produces the diagnostic plots from the paper in a single call. We use
+`B = 50` bootstrap replicates here for speed; the paper uses `B = 1000`.
+
+```{r, fig.alt = "Diagnostic plots for the PBSC application"}
+res <- paper_pbsc(B = 50, seed = 456, plot = TRUE, verbose = FALSE)
+```
+
+### Parameter estimates
+
+```{r}
+print(res$table_params, row.names = FALSE)
+```
+
+### Goodness-of-fit results
+
+```{r}
+print(res$table_gof, row.names = FALSE)
+```
+
+## Step by step
+
+```{r}
+X <- cbind(1, pbsc$adj_age, pbsc$chemo)
+colnames(X) <- c("(Intercept)", "adj_age", "chemo")
+Z <- matrix(1, nrow(pbsc), 1)
+colnames(Z) <- "(Intercept)"
+
+fit <- simplex_fit(pbsc$recovery, X, Z)
+fit
+
+dg <- simplex_diag(fit)
+dg$Tn
+dg$Un
+```
+
+```{r, fig.alt = "Influence index plot for the PBSC model"}
+plot_influence(dg)
+```
+
+```{r}
+set.seed(456)
+gof <- simplex_gof(pbsc$recovery, X, Z, B = 50, verbose = FALSE)
+gof
+```
+
+```{r, fig.alt = "Bootstrap distribution of Un for the PBSC application"}
+plot_gof_boot(gof)
+```
+
+With $n = 242$, this larger sample illustrates the bootstrap calibration
+in a setting where the asymptotic approximation is already reasonably
+well behaved, and serves as a useful contrast with the small-sample
+ammonia application.
+
+## References
+
+Ospina, R., Espinheira, P. L., Silva, F. C., Barros, M. (2026). A
+Bootstrap-Calibrated Local Influence Goodness-of-Fit Procedure for
+Simplex Regression Models.

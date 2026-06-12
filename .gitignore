@@ -21,3 +21,4 @@ src/*.dll
 
 # Reproduction-script outputs
 inst/scripts/output/
+inst/doc

@@ -82,8 +82,8 @@ rsimplex <- function(n, mu, sigma2) {
 #' @examples
 #' \donttest{
 #' res <- sim_table1(n = 40, beta = c(-3, 2, 1, -1, 0.5),
-#'                   sigma2 = 0.5, R = 500, B = 200,
-#'                   mu_range = "mid", ncores = 2)
+#'                   sigma2 = 0.5, R = 100, B = 100,
+#'                   mu_range = "mid", ncores = 1)
 #' print(res)
 #' }
 #'
@@ -159,8 +159,12 @@ sim_table1 <- function(n = 40,
     }, error = function(e) rep(NA, length(alpha)))
   }
 
-  if (ncores > 1) {
-    cl <- makeCluster(min(ncores, detectCores() - 1))
+  avail_cores <- detectCores()
+  if (is.na(avail_cores)) avail_cores <- 1L
+  use_cores <- max(1L, min(ncores, avail_cores - 1L))
+
+  if (ncores > 1 && use_cores > 1) {
+    cl <- makeCluster(use_cores)
     on.exit(stopCluster(cl), add = TRUE)
     clusterExport(cl, c("n", "X", "Z", "mu_t", "sigma2", "B", "alpha"),
                   envir = environment())

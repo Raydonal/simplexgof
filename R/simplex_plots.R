@@ -42,7 +42,8 @@
 #' dg  <- simplex_diag(fit)
 #' plot_influence(dg)
 #'
-#' @seealso \code{\link{simplex_diag}}, \code{\link{plot.simplexfit}}
+#' @seealso \code{\link{simplex_diag}}, \code{\link{simplex_fit}},
+#'   \code{\link{plot.simplexfit}}
 #' @export
 plot_influence <- function(x, threshold = 2,
                            col.bar  = "#2c7bb6",
@@ -60,11 +61,11 @@ plot_influence <- function(x, threshold = 2,
     Cei <- x
   else
     stop("'x' must be a simplexfit, simplex_diag output, or numeric vector.")
-
+  
   n     <- length(Cei)
   ref   <- threshold * mean(Cei)
   ylim  <- c(0, max(Cei) * 1.15)
-
+  
   plot(seq_len(n), Cei, type = "h",
        lwd = 2, col = col.bar,
        ylim = ylim,
@@ -73,7 +74,7 @@ plot_influence <- function(x, threshold = 2,
   legend("topright",
          legend = bquote(.(threshold) ~ bar(C)[I]),
          lty = 2, col = col.line, bty = "n", cex = 0.85)
-
+  
   if (label) {
     idx <- which(Cei > ref)
     if (length(idx)) {
@@ -128,14 +129,14 @@ plot_envelope <- function(fit, B = 99, conf = 0.95,
                           ...) {
   if (!inherits(fit, "simplexfit"))
     stop("'fit' must be a simplexfit object.")
-
+  
   y      <- fit$y
   muhat  <- fit$fitted.mu
   s2hat  <- fit$fitted.sigma2
   n      <- fit$n
   X      <- fit$X
   Z      <- fit$Z
-
+  
   ## Standardised deviance residual for the simplex model.
   ## The unit deviance is d(y;mu) = (y-mu)^2 / [y(1-y) mu^2 (1-mu)^2];
   ## the standardised residual divides by the dispersion sigma^2_t.
@@ -144,7 +145,7 @@ plot_envelope <- function(fit, B = 99, conf = 0.95,
     sign(y - mu) * sqrt(d / s2)
   }
   r_obs <- sort(abs(.dev_resid(y, muhat, s2hat)))
-
+  
   ## Bootstrap envelope: generate B parametric-bootstrap samples from the
   ## fitted model, refit, and store the SORTED absolute residuals. The
   ## envelope bands are pointwise quantiles of the ordered bootstrap
@@ -164,16 +165,16 @@ plot_envelope <- function(fit, B = 99, conf = 0.95,
     }
   }
   r_sim <- r_sim[, seq_len(ok), drop = FALSE]
-
+  
   ## Half-normal quantiles
   hn_q <- qnorm(0.5 + 0.5 * ((seq_len(n) - 0.375) / (n + 0.25)))
-
+  
   ## Pointwise envelope limits over the ORDERED bootstrap residuals
   alpha <- (1 - conf) / 2
   lo  <- apply(r_sim, 1, quantile, probs = alpha,     na.rm = TRUE)
   hi  <- apply(r_sim, 1, quantile, probs = 1 - alpha, na.rm = TRUE)
   med <- apply(r_sim, 1, median, na.rm = TRUE)
-
+  
   ylim <- range(c(r_obs, lo, hi), na.rm = TRUE)
   ylim[2] <- ylim[2] * 1.05
   plot(hn_q, r_obs, type = "n", ylim = ylim,
@@ -182,10 +183,10 @@ plot_envelope <- function(fit, B = 99, conf = 0.95,
           col = col.env, border = NA)
   lines(hn_q, med, lty = 2, col = "grey40")
   points(hn_q, r_obs, pch = 19, col = col.obs, cex = 0.8)
-
+  
   ## Fraction of points outside the band (diagnostic summary)
   outside <- mean(r_obs > hi | r_obs < lo)
-
+  
   invisible(list(residuals = r_obs, envelope = r_sim,
                  lower = lo, upper = hi, prop_outside = outside))
 }
@@ -218,7 +219,8 @@ plot_envelope <- function(fit, B = 99, conf = 0.95,
 #' plot_gof_boot(gof)
 #' }
 #'
-#' @seealso \code{\link{simplex_gof}}, \code{\link{plot.simplexgof}}
+#' @seealso \code{\link{simplex_gof}}, \code{\link{plot_influence}},
+#'   \code{\link{plot.simplexgof}}
 #' @export
 plot_gof_boot <- function(x,
                           col.hist = "#abd9e9",
@@ -230,31 +232,31 @@ plot_gof_boot <- function(x,
                           ...) {
   if (!inherits(x, "simplexgof"))
     stop("'x' must be a simplexgof object.")
-
+  
   Un_boot <- x$Un_boot
   Un_obs  <- x$Un
-
+  
   if (is.null(main))
     main <- bquote("Bootstrap distribution of " ~ U[n]^"*" ~
-                   " (B = " ~ .(length(Un_boot)) ~ ")")
-
+                     " (B = " ~ .(length(Un_boot)) ~ ")")
+  
   h <- hist(Un_boot, plot = FALSE, breaks = "FD")
   ylim <- c(0, max(h$density) * 1.25)
-
+  
   hist(Un_boot, freq = FALSE, col = col.hist, border = "white",
        main = main, xlab = xlab, ylab = ylab,
        ylim = ylim, breaks = "FD", ...)
-
+  
   # Normal overlay
   xs <- seq(min(Un_boot), max(Un_boot), length.out = 200)
   lines(xs, dnorm(xs), lty = 2, col = "grey40", lwd = 1.5)
-
+  
   # Observed Un
   abline(v = Un_obs, col = col.obs, lwd = 2.5)
   text(Un_obs, max(h$density) * 1.1,
        bquote(U[n] == .(round(Un_obs, 3))),
        col = col.obs, pos = 4, cex = 0.9)
-
+  
   # Bootstrap critical values (5% level by default)
   res <- x$results
   if (!is.null(res) && "5%" %in% res$alpha) {
@@ -265,7 +267,7 @@ plot_gof_boot <- function(x,
     mtext(bquote("[" * .(round(lo, 3)) * "," ~ .(round(hi, 3)) * "]"),
           side = 3, line = 0.3, cex = 0.8, col = col.cv)
   }
-
+  
   legend("topright", bty = "n", cex = 0.85,
          lty  = c(1, 2, 3, 1),
          col  = c(col.obs, "grey40", col.cv, "transparent"),
@@ -278,18 +280,50 @@ plot_gof_boot <- function(x,
 }
 
 
+#' Diagnostic Plots for a Fitted Simplex Regression Model
+#'
+#' \code{plot} method for objects of class \code{"simplexfit"}. Produces
+#' influence index plots and/or a half-normal plot with simulated envelope.
+#'
+#' @param x An object of class \code{"simplexfit"} returned by
+#'   \code{\link{simplex_fit}}.
+#' @param which Character vector indicating which plots to produce:
+#'   \code{"influence"} for the influence index plot
+#'   (see \code{\link{plot_influence}}), and/or \code{"envelope"} for the
+#'   half-normal plot with simulated envelope
+#'   (see \code{\link{plot_envelope}}). Several can be requested at once.
+#' @param ask Logical; if \code{TRUE} and more than one plot is requested,
+#'   the user is asked before each new plot. Defaults to
+#'   \code{length(which) > 1 && dev.interactive()}.
+#' @param ... Further arguments passed to \code{\link{plot_influence}} or
+#'   \code{\link{plot_envelope}}.
+#'
+#' @return The object \code{x}, invisibly.
+#'
+#' @seealso \code{\link{simplex_fit}}, \code{\link{plot_influence}},
+#'   \code{\link{plot_envelope}}
+#'
+#' @examples
+#' data(ammonia)
+#' X <- cbind(1, ammonia$corr_ar, ammonia$temp_agua,
+#'            ammonia$corr_ar * ammonia$temp_agua)
+#' Z <- cbind(1, ammonia$temp_agua,
+#'            ammonia$corr_ar * ammonia$temp_agua)
+#' fit <- simplex_fit(ammonia$perda, X, Z)
+#' plot(fit, which = "influence")
+#'
 #' @export
 plot.simplexfit <- function(x, which = c("influence", "envelope"),
                             ask = length(which) > 1 && dev.interactive(),
                             ...) {
   which <- match.arg(which, several.ok = TRUE)
   dg    <- simplex_diag(x)
-
+  
   if (ask) {
     opar <- par(ask = TRUE)
     on.exit(par(opar))
   }
-
+  
   for (w in which) {
     if (w == "influence") plot_influence(dg, ...)
     if (w == "envelope")  plot_envelope(x, ...)
@@ -298,17 +332,50 @@ plot.simplexfit <- function(x, which = c("influence", "envelope"),
 }
 
 
+#' Plots for a Bootstrap Goodness-of-Fit Test Result
+#'
+#' \code{plot} method for objects of class \code{"simplexgof"}. Produces the
+#' bootstrap distribution of \eqn{U_n} and/or an influence index plot.
+#'
+#' @param x An object of class \code{"simplexgof"} returned by
+#'   \code{\link{simplex_gof}}.
+#' @param which Character vector indicating which plots to produce:
+#'   \code{"boot"} for the bootstrap distribution of \eqn{U_n}
+#'   (see \code{\link{plot_gof_boot}}), and/or \code{"influence"} for the
+#'   influence index plot (see \code{\link{plot_influence}}). Several can be
+#'   requested at once.
+#' @param ask Logical; if \code{TRUE} and more than one plot is requested,
+#'   the user is asked before each new plot. Defaults to
+#'   \code{length(which) > 1 && dev.interactive()}.
+#' @param ... Further arguments passed to \code{\link{plot_gof_boot}} or
+#'   \code{\link{plot_influence}}.
+#'
+#' @return The object \code{x}, invisibly.
+#'
+#' @seealso \code{\link{simplex_gof}}, \code{\link{plot_gof_boot}},
+#'   \code{\link{plot_influence}}
+#'
+#' @examples
+#' data(ammonia)
+#' X <- cbind(1, ammonia$corr_ar, ammonia$temp_agua,
+#'            ammonia$corr_ar * ammonia$temp_agua)
+#' Z <- cbind(1, ammonia$temp_agua,
+#'            ammonia$corr_ar * ammonia$temp_agua)
+#' set.seed(42)
+#' gof <- simplex_gof(ammonia$perda, X, Z, B = 50, verbose = FALSE)
+#' plot(gof, which = "boot")
+#'
 #' @export
 plot.simplexgof <- function(x, which = c("boot", "influence"),
                             ask = length(which) > 1 && dev.interactive(),
                             ...) {
   which <- match.arg(which, several.ok = TRUE)
-
+  
   if (ask) {
     opar <- par(ask = TRUE)
     on.exit(par(opar))
   }
-
+  
   for (w in which) {
     if (w == "boot")      plot_gof_boot(x, ...)
     if (w == "influence") plot_influence(x$diag, ...)

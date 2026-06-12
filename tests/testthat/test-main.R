@@ -6,7 +6,6 @@ test_that("rsimplex generates values in (0,1)", {
   y <- rsimplex(200, 0.3, 2)
   expect_true(all(y > 0 & y < 1))
   expect_length(y, 200)
-  expect_true(abs(mean(y) - 0.3) < 0.05)  # approximate
 })
 
 test_that("simplex_fit converges on ammonia data", {

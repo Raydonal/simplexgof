@@ -1,0 +1,113 @@
+---
+title: "Paper: ammonia application"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Paper: ammonia application}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 6,
+  fig.height = 5
+)
+```
+
+```{r setup}
+library(simplexgof)
+```
+
+## The ammonia application
+
+This article reproduces the ammonia-oxidation application from the
+companion methodological paper (Ospina, Espinheira, Silva and Barros,
+2026), using the `ammonia` dataset (Brownlee, 1965; $n = 21$).
+
+The model fitted in the paper has
+
+$$
+\mathrm{logit}(\mu_t) = \beta_1 + \beta_2 x_{t2} + \beta_3 x_{t3} +
+  \beta_4 x_{t2} x_{t3}
+$$
+
+for the mean, and
+
+$$
+\log(\sigma^2_t) = \gamma_1 + \gamma_2 x_{t3} + \gamma_3 x_{t2} x_{t3}
+$$
+
+for the dispersion, where $x_{t2}$ = `corr_ar` (air flow) and $x_{t3}$ =
+`temp_agua` (cooling water inlet temperature).
+
+## One-call reproduction
+
+The function `paper_ammonia()` fits this model, runs the bootstrap GoF
+test, and produces the diagnostic plots from the paper in a single call.
+We use `B = 50` bootstrap replicates here for speed; the paper uses
+`B = 1000`.
+
+```{r, fig.alt = "Diagnostic plots for the ammonia application"}
+res <- paper_ammonia(B = 50, seed = 123, plot = TRUE, verbose = FALSE)
+```
+
+### Parameter estimates (Table 5 of the paper)
+
+```{r}
+print(res$table_params, row.names = FALSE)
+```
+
+### Goodness-of-fit results (Table 6 of the paper)
+
+```{r}
+print(res$table_gof, row.names = FALSE)
+```
+
+## Step by step
+
+The same analysis can be reproduced manually with the lower-level
+functions of the package:
+
+```{r}
+data(ammonia)
+
+X <- cbind(1, ammonia$corr_ar, ammonia$temp_agua,
+           ammonia$corr_ar * ammonia$temp_agua)
+Z <- cbind(1, ammonia$temp_agua,
+           ammonia$corr_ar * ammonia$temp_agua)
+
+fit <- simplex_fit(ammonia$perda, X, Z)
+fit
+
+dg <- simplex_diag(fit)
+dg$Tn
+dg$Un
+```
+
+```{r, fig.alt = "Influence index plot for the ammonia model"}
+plot_influence(dg)
+```
+
+```{r}
+set.seed(123)
+gof <- simplex_gof(ammonia$perda, X, Z, B = 50, verbose = FALSE)
+gof
+```
+
+```{r, fig.alt = "Bootstrap distribution of Un for the ammonia application"}
+plot_gof_boot(gof)
+```
+
+As reported in the paper, the test does not reject $H_0$ at conventional
+significance levels for this model, consistent with an adequate fit.
+
+## References
+
+Brownlee, K. A. (1965). *Statistical Theory and Methodology in Science
+and Engineering*. Wiley.
+
+Ospina, R., Espinheira, P. L., Silva, F. C., Barros, M. (2026). A
+Bootstrap-Calibrated Local Influence Goodness-of-Fit Procedure for
+Simplex Regression Models.

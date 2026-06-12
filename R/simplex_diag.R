@@ -7,6 +7,9 @@
 #'
 #' @param fit An object of class \code{"simplexfit"} returned by
 #'   \code{\link{simplex_fit}}.
+#' @param J.method Method used to compute the J gradient vector: either
+#'   \code{"analytic"} (default) for the closed-form expression, or
+#'   \code{"finitediff"} for a numerical finite-difference approximation.
 #'
 #' @return A list with components:
 #'   \describe{

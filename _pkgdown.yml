@@ -72,6 +72,7 @@ reference:
       - simplex_fit
       - simplex_gof
       - simplex_diag
+      - simplex_Un_asymptotic
 
   - title: "Visualisation"
     desc: "Reproduce figures from the paper."
@@ -87,6 +88,7 @@ reference:
     contents:
       - paper_ammonia
       - paper_pbsc
+      - paper_fig1
 
   - title: "Simulation"
     desc: "Monte Carlo size and power study (Table 2 of the paper)."
