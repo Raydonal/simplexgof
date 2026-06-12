@@ -1,0 +1,11 @@
+pandoc: 3.8.3
+pkgdown: 2.2.0
+pkgdown_sha: ~
+articles:
+  paper-ammonia: paper-ammonia.html
+  paper-pbsc: paper-pbsc.html
+  simplexgof-intro: simplexgof-intro.html
+last_built: 2026-06-12T22:06Z
+urls:
+  reference: https://raydonal.github.io/simplexgof/reference
+  article: https://raydonal.github.io/simplexgof/articles
