@@ -1,4 +1,4 @@
-# simplexgof ![simplexgof logo](reference/figures/logo.svg)
+# simplexgof
 
 ## Overview
 
