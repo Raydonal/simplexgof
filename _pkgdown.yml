@@ -17,6 +17,9 @@ template:
       <link rel="icon" type="image/png" sizes="16x16"
             href="favicon/favicon-16x16.png">
       <link rel="manifest" href="favicon/site.webmanifest">
+      
+math:
+  engine: mathjax      
 
 home:
   title: "simplexgof — Bootstrap GoF Test for Simplex Regression"
@@ -33,7 +36,7 @@ home:
     - text: "Report a bug"
       href: https://github.com/Raydonal/simplexgof/issues
 
-logo: man/figures/logo.svg
+logo: man/figures/logo.png
 
 navbar:
   structure:
