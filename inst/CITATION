@@ -1,0 +1,35 @@
+citHeader("To cite simplexgof in publications use:")
+
+bibentry(
+  bibtype  = "Misc",
+  title    = "A Bootstrap-Calibrated Local Influence Goodness-of-Fit Procedure for Simplex Regression Models",
+  author   = c(
+    person("Raydonal", "Ospina"),
+    person("Patricia L.", "Espinheira"),
+    person("Fernanda C.", "Silva"),
+    person("Michelli", "Barros")
+  ),
+  year     = "2026",
+  note     = "Working paper",
+  textVersion = paste(
+    "Ospina R., Espinheira P.L., Silva F.C., Barros M. (2026).",
+    "A Bootstrap-Calibrated Local Influence Goodness-of-Fit Procedure",
+    "for Simplex Regression Models.",
+    "Working paper."
+  )
+)
+
+bibentry(
+  bibtype  = "Manual",
+  title    = "simplexgof: Bootstrap-Calibrated Goodness-of-Fit Test for Simplex Regression",
+  author   = person("Raydonal", "Ospina"),
+  year     = "2026",
+  note     = "R package version 0.1.0",
+  url      = "https://github.com/Raydonal/simplexgof",
+  textVersion = paste(
+    "Ospina R. (2026).",
+    "simplexgof: Bootstrap-Calibrated Goodness-of-Fit Test for Simplex Regression.",
+    "R package version 0.1.0.",
+    "https://github.com/Raydonal/simplexgof"
+  )
+)

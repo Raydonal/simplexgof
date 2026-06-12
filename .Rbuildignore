@@ -1,0 +1,10 @@
+^\.github$
+^cran-comments\.md$
+^simplexgof\.Rproj$
+^\.gitignore$
+^_pkgdown\.yml$
+^pkgdown$
+^docs$
+^README\.Rmd$
+^\.Rproj\.user$
+^LICENSE\.md$

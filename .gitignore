@@ -1,0 +1,23 @@
+# R session / build artifacts
+*.Rproj.user
+.Rproj.user/
+*.Rhistory
+.Rhistory
+*.RData
+.RData
+*.Ruserdata
+.Ruserdata
+.DS_Store
+
+# Compiled objects (regenerated on install)
+src/*.o
+src/*.so
+src/*.dll
+
+# Check / build output
+*.Rcheck/
+*.tar.gz
+/docs/
+
+# Reproduction-script outputs
+inst/scripts/output/

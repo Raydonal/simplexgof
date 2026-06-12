@@ -1,0 +1,119 @@
+url: https://raydonal.github.io/simplexgof/
+
+template:
+  bootstrap: 5
+  bootswatch: flatly
+  bslib:
+    primary:          "#2c7bb6"
+    navbar-bg:        "#1a3a5c"
+    link-color:       "#2c7bb6"
+    font-size-base:   "1rem"
+  includes:
+    in_header: |
+      <link rel="apple-touch-icon" sizes="180x180"
+            href="favicon/apple-touch-icon.png">
+      <link rel="icon" type="image/png" sizes="32x32"
+            href="favicon/favicon-32x32.png">
+      <link rel="icon" type="image/png" sizes="16x16"
+            href="favicon/favicon-16x16.png">
+      <link rel="manifest" href="favicon/site.webmanifest">
+
+home:
+  title: "simplexgof — Bootstrap GoF Test for Simplex Regression"
+  description: >
+    A bootstrap-calibrated local-influence goodness-of-fit test for simplex
+    regression models with constant or varying dispersion.
+    Reproduces all tables and figures from the companion methodological paper
+    (Ospina et al., 2026).
+  sidebar:
+    structure: [links, license, community, citation, authors, dev]
+  links:
+    - text: "GitHub repository"
+      href: https://github.com/Raydonal/simplexgof
+    - text: "Report a bug"
+      href: https://github.com/Raydonal/simplexgof/issues
+
+logo: man/figures/logo.svg
+
+navbar:
+  structure:
+    left:  [intro, reference, articles, news]
+    right: [github]
+  components:
+    intro:
+      text: "Get Started"
+      href: articles/simplexgof-intro.html
+    reference:
+      text: "Reference"
+      href: reference/index.html
+    articles:
+      text: "Articles"
+      menu:
+        - text: "Introduction to simplexgof"
+          href: articles/simplexgof-intro.html
+        - text: "---"
+        - text: "Reproducing the paper"
+        - text: "Paper: ammonia application"
+          href: articles/paper-ammonia.html
+        - text: "Paper: PBSC application"
+          href: articles/paper-pbsc.html
+    news:
+      text: "Changelog"
+      href: news/index.html
+    github:
+      icon: fab fa-github
+      href: https://github.com/Raydonal/simplexgof
+      aria-label: GitHub
+
+reference:
+  - title: "Fitting and GoF Test"
+    desc: "Fit a simplex regression model and run the bootstrap test."
+    contents:
+      - simplex_fit
+      - simplex_gof
+      - simplex_diag
+
+  - title: "Visualisation"
+    desc: "Reproduce figures from the paper."
+    contents:
+      - plot_influence
+      - plot_envelope
+      - plot_gof_boot
+      - plot.simplexfit
+      - plot.simplexgof
+
+  - title: "Paper Reproduction"
+    desc: "One-call functions that reproduce all paper results."
+    contents:
+      - paper_ammonia
+      - paper_pbsc
+
+  - title: "Simulation"
+    desc: "Monte Carlo size and power study (Table 2 of the paper)."
+    contents:
+      - sim_table1
+      - rsimplex
+
+  - title: "Datasets"
+    contents:
+      - ammonia
+      - pbsc
+
+  - title: "Package"
+    contents:
+      - simplexgof-package
+
+footer:
+  structure:
+    left:  [developed_by, built_with]
+    right: [blank]
+  components:
+    developed_by:
+      html: >
+        Developed and maintained by
+        <a href="https://sites.google.com/view/raydonal-ospina">Raydonal Ospina</a>.
+        Methodology: Ospina, Espinheira, Silva &amp; Barros (2026).
+
+authors:
+  Raydonal Ospina:
+    href: https://sites.google.com/view/raydonal-ospina

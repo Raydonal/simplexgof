@@ -1,0 +1,37 @@
+useDynLib(simplexgof, .registration = TRUE)
+importFrom(Rcpp, evalCpp)
+importFrom(utils, data)
+importFrom(parallel, makeCluster, stopCluster, parLapply,
+           detectCores, clusterExport, clusterEvalQ)
+importFrom(stats,  optim, qnorm, quantile, sd, var, pnorm,
+           runif, rchisq, rnorm, median, IQR, coef, dnorm)
+importFrom(graphics, plot, lines, abline, points, polygon,
+           hist, legend, mtext, par, title, segments, axis, box, text)
+importFrom(grDevices, rgb, col2rgb, colorRampPalette, dev.interactive)
+
+# Main user functions
+export(simplex_fit)
+export(simplex_gof)
+export(simplex_diag)
+export(rsimplex)
+export(sim_table1)
+
+# Plotting functions
+export(plot_influence)
+export(plot_envelope)
+export(plot_gof_boot)
+
+# Paper reproduction
+export(paper_ammonia)
+export(paper_pbsc)
+export(paper_fig1)
+export(simplex_Un_asymptotic)
+
+# S3 methods
+S3method(print,   simplexfit)
+S3method(coef,    simplexfit)
+S3method(fitted,  simplexfit)
+S3method(print,   simplexgof)
+S3method(summary, simplexgof)
+S3method(plot,    simplexgof)
+S3method(plot,    simplexfit)
