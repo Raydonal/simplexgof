@@ -84,9 +84,9 @@ The fitted object has class `"simplexfit"`, with `print`, `coef`, and
 
 coef(fit)
 #>         beta1         beta2         beta3         beta4        gamma1 
-#> -12.989277092   0.131221084   0.270456443  -0.003688490   3.834204659 
+#> -12.989277095   0.131221084   0.270456444  -0.003688490   3.834204684 
 #>        gamma2        gamma3 
-#>  -0.445382851   0.004442287
+#>  -0.445382852   0.004442287
 ```
 
 ## Influence diagnostics
