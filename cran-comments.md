@@ -1,12 +1,20 @@
 ## Test environments
 * local Windows/Mac/Linux, R x.y.z
-* GitHub Actions (R-release, R-devel)
+* win-builder (devel): OK
+* win-builder (release): OK
+* GitHub Actions: OK
 
 ## R CMD check results
 
 ✓ No errors
 ✓ No warnings  
 ○ 1 note: package size (natural, includes large datasets/vignettes)
+
+## Downstream dependencies
+
+There are currently no downstream dependencies for this package.
+
+
 
 ## Comments
 
