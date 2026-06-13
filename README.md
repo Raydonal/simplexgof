@@ -1,4 +1,4 @@
-# simplexgof <img src="man/figures/logo.svg" align="right" height="139" alt="simplexgof logo"/>
+# simplexgof <img src="man/figures/logo.png" align="right" height="139" alt="simplexgof logo"/>
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/Raydonal/simplexgof/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Raydonal/simplexgof/actions/workflows/R-CMD-check.yaml)
